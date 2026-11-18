@@ -1,50 +1,100 @@
+import os
 import random
 
-# Базовые списки для генерации разнообразных комбинаций
-project_names = [
-    "Alpha", "Beta", "Gamma", "Delta", "Omega", "Nexus", "Vertex", "Zenith", 
+prefixes = [
+    "Alpha", "Beta", "Gamma", "Delta", "Omega", "Nexus", "Vertex", "Zenith",
     "Apex", "Matrix", "Vector", "Echo", "Mirage", "Titan", "Pioneer", "Orbit",
-    "Stellar", "Core", "Flux", "Horizon", "Vanguard", "Synergy", "Beacon"
+    "Stellar", "Core", "Flux", "Horizon", "Vanguard", "Synergy", "Beacon",
+    "Quantum", "Pulse", "Nova", "Aether", "Stratos", "Prism", "Helios"
 ]
 
-categories = [
-    ("mobile app on Flutter", "with Bloc state management, Firebase auth, and local database"),
-    ("e-commerce platform on Django", "with PostgreSQL, Celery task queue, and Redis caching"),
-    ("dashboard on Vue.js", "with Pinia, Tailwind CSS, and REST API integration"),
-    ("microservice on Go (Golang)", "with gRPC, PostgreSQL, and Prometheus monitoring"),
-    ("machine learning pipeline in Python", "with PyTorch, Hugging Face transformers, and FastAPI"),
-    ("desktop app on Electron", "with React, TypeScript, and SQLite local storage"),
-    ("smart contract on Solidity", "with Hardhat testing, OpenZeppelin, and Web3.js"),
-    ("DevOps pipeline", "with GitHub Actions, Docker, Kubernetes, and Terraform")
+domains = [
+    "fintech banking portal", "healthcare telemedicine platform", "logistics fleet tracker",
+    "e-commerce marketplace", "cybersecurity threat monitor", "edtech learning management system",
+    "smart home IoT controller", "real estate booking engine", "autonomous drone telemetry hub",
+    "AI content moderation service", "supply chain analytics dashboard", "crypto portfolio tracker",
+    "cloud storage sync client", "video streaming backend", "HR recruitment automation tool",
+    "energy grid load balancer", "retail POS inventory system", "social media scheduler"
 ]
 
+architectures = [
+    "event-driven microservices architecture",
+    "serverless cloud-native backend",
+    "modular monolith with clean architecture",
+    "distributed CQRS and Event Sourcing system",
+    "cross-platform mobile and web ecosystem",
+    "high-throughput real-time streaming pipeline",
+    "offline-first local-sync desktop application",
+    "multi-tenant SaaS platform"
+]
+
+languages_frameworks = [
+    "Python (FastAPI & SQLAlchemy)", "Go (Gin & gRPC)", "Node.js (NestJS & TypeScript)",
+    "C# (.NET 10 & Entity Framework)", "Java (Spring Boot & WebFlux)", "Rust (Actix-web & Tokio)",
+    "React Native (Expo & TypeScript)", "Flutter (Dart & Bloc)", "Vue 3 (Pinia & Vite)",
+    "Python (PyTorch & Ray)", "Scala 3 (Akka & ZIO)", "Next.js (App Router & Prisma)"
+]
+
+databases = [
+    "PostgreSQL with pgvector", "MongoDB replica set", "Redis Cluster & ClickHouse",
+    "Apache Cassandra", "SQLite with SQLCipher encryption", "Neo4j graph database",
+    "TimescaleDB for time-series", "DynamoDB with DAX caching", "Elasticsearch & Kibana"
+]
+
+infra_tools = [
+    "Docker, Kubernetes, and Terraform",
+    "GitHub Actions CI/CD and AWS ECS",
+    "Prometheus, Grafana, and OpenTelemetry",
+    "Apache Kafka message broker and RabbitMQ",
+    "Nginx reverse proxy and Cloudflare Workers",
+    "HashiCorp Vault for secrets and OAuth2/OIDC",
+    "ArgoCD GitOps and Helm charts",
+    "Sentry error tracking and Loki log aggregation"
+]
+
+key_features = [
+    "automated end-to-end integration testing",
+    "zero-downtime blue-green deployments",
+    "end-to-end AES-256 data encryption",
+    "sub-50ms API response latency optimization",
+    "role-based access control (RBAC) and audit logs",
+    "automated horizontal pod autoscaling",
+    "real-time WebSocket push notifications",
+    "multi-region disaster recovery backups",
+    "rate limiting and DDoS mitigation middleware",
+    "AI-powered anomaly detection alerts"
+]
+
+used_texts = set()
 documents = []
 
-# Генерируем 1000 документов
-for i in range(1, 1001):
-    doc_id = f"doc_{i}"
-    name = random.choice(project_names) + "_" + str(i)
-    tech_stack, details = random.choice(categories)
+while len(documents) < 1000:
+    doc_id = f"doc_{len(documents) + 1}"
+    project_name = f"{random.choice(prefixes)}_{random.randint(100, 9999)}"
     
-    # Формируем текст документа в том же стиле
+    domain = random.choice(domains)
+    arch = random.choice(architectures)
+    stack = random.choice(languages_frameworks)
+    db = random.choice(databases)
+    infra = random.choice(infra_tools)
+    feat1, feat2 = random.sample(key_features, 2)
+
     text = (
-        f"Architect project {name}: {tech_stack} "
-        f"{details} with automated testing, CI/CD integration, "
-        f"and performance optimization"
+        f"Project {project_name} is a {domain} built using {arch}. "
+        f"Core stack: {stack} with {db} for persistence. "
+        f"Infrastructure relies on {infra}, featuring {feat1} and {feat2}."
     )
-    
-    documents.append((doc_id, text))
 
-# 1. Сохранение в один общий текстовый файл (txt)
-with open("documents.txt", "w", encoding="utf-8") as f:
-    for doc_id, text in documents:
-        f.write(f"ID: {doc_id}\nText: {text}\n" + "-"*50 + "\n")
+    if text not in used_texts:
+        used_texts.add(text)
+        documents.append((doc_id, text))
 
-# 2. Сохранение в один общий Markdown-файл (md)
-with open("documents.md", "w", encoding="utf-8") as f:
-    f.write("# Generated Documents Database (1000 items)\n\n")
+os.makedirs("base", exist_ok=True)
+output_path = os.path.join("base", "dataset.md")
+
+with open(output_path, "w", encoding="utf-8") as f:
+    f.write("# Unique Projects Knowledge Base (1000 items)\n\n")
     for doc_id, text in documents:
         f.write(f"## `{doc_id}`\n\n{text}\n\n---\n\n")
 
-print(f"Успешно сгенерировано и сохранено документов: {len(documents)}")
-print("Файлы созданы: documents.txt и documents.md")
+print(f"Готово! Сгенерировано {len(documents)} полностью уникальных документов в {output_path}")
